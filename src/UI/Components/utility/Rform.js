@@ -22,12 +22,16 @@ function Rform() {
       .string()
       .required("confirmation of password is important")
       .oneOf([yup.ref("password"), null], "password doesn't match"),
-    refer: yup
-      .number()
-      .required("please input refer number")
-      .typeError("only accepts a number")
-      .positive("entry should be greater than 0")
-      .integer("input integer value"),
+    askRefer: yup.boolean(),
+    refer: yup.number().when("askRefer", {
+      is: true,
+      then: yup
+        .number()
+        .required("please input refer number")
+        .typeError("only accepts a number")
+        .positive("entry should be greater than 0")
+        .integer("input integer value"),
+    }),
   });
 
   const {
